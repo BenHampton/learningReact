@@ -6,32 +6,24 @@ class Task extends Component {
     render() {
         let listItem;
         if(this.props.list) {
+            console.log(this.props.list)
             listItem = this.props.list.map( item => {
                 return (
-                    <TaskItems key={item.name} itemIndex={item}></TaskItems>
+                    <TaskItems key={item.id} itemIndex={item}></TaskItems>
                 )
             });
         }
 
         return (
             <div className="Task">
-                <div>
-                    taskApp
-                </div>
+                <table className="table">
+                    <tbody>
+                        {listItem}
+                    </tbody>
+                </table>
             </div>
         );
     }
 }
 
 export default Task;
-/*
-<form>
-    <table className="taskTbl">
-        <tr>
-            <td>
-
-            </td>
-        </tr>
-    </table>
-</form>
-*/

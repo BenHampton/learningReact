@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import AddTask from './Components/AddTask';
 import Nav from './Components/Nav';
+import Task from './Components/Task';
+
 
 import './App.css';
 
-//const apiURL = 'http://localhost:8081/todo/v1'
+const apiURL = 'http://charter-todo.herokuapp.com/todo/v1';
 
 class App extends Component {
 
@@ -14,7 +16,42 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this.setState({ todo: [
+        fetch(apiURL)
+            .then(response => response.json())
+            .then(data => {
+                console.log(JSON.stringify(data));
+                this.setState({todo: data})
+            })
+            .catch(error => console.log(error));
+    }
+
+    handleAddTask(task){
+        let todo = this.state.todo;
+        todo.push(task);
+        this.setState({todo:todo});
+    }
+
+    render() {
+    return (
+      <div className="App">
+          <Nav />
+        <header className="App-header">
+          <h1 className="App-title">Welcome to Learning React with SpringBoot as the backend</h1>
+        </header>
+        <div>
+            <AddTask addTask={this.handleAddTask.bind(this)} />
+            <Task list={this.state.todo}/>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default App;
+
+
+/*
+*this.setState({ todo: [
         {
             name: 'Ben',
             date: 'today',
@@ -31,21 +68,4 @@ class App extends Component {
             task: 'Coding'
         }
     ]});
-    }
-
-    render() {
-    return (
-      <div className="App">
-          <Nav />
-        <header className="App-header">
-          <h1 className="App-title">Welcome to Learning React with SpringBoot as the backend</h1>
-        </header>
-        <div>
-            <AddTask />
-        </div>
-      </div>
-    );
-  }
-}
-
-export default App;
+* */
